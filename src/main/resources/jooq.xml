@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+    <!-- Configure the database connection here -->
+    <generator>
+        <generate>
+            <pojos>true</pojos>
+            <globalCatalogReferences>false</globalCatalogReferences>
+            <globalKeyReferences>false</globalKeyReferences>
+            <globalLinkReferences>false</globalLinkReferences>>
+            <globalQueueReferences>false</globalQueueReferences>
+            <globalRoutineReferences>false</globalRoutineReferences>
+            <globalSchemaReferences>false</globalSchemaReferences>
+            <globalSequenceReferences>false</globalSequenceReferences>
+            <globalTableReferences>false</globalTableReferences>
+            <globalUDTReferences>false</globalUDTReferences>
+            <javaTimeTypes>false</javaTimeTypes>
+        </generate>
+
+        <database>
+            <excludes>
+            </excludes>
+            <includes>.*</includes>
+            <inputSchema>tractivity</inputSchema>
+            <outputSchema>tractivity_db</outputSchema>
+            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+            <comments>
+                <comment>
+                    <expression>.*</expression>
+                    <includeSchemaComment>false</includeSchemaComment>
+                </comment>
+            </comments>
+
+            <forcedTypes>
+                <forcedType>
+                    <expression>.*</expression>
+                    <name>BOOLEAN</name>
+                    <types>.*tinyint.*</types>
+                </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.SimpleActivityBinding</binding>
+                    <expression>.*(view_events)\.(activities)</expression>
+                    <types>.*json.*</types>
+                    <userType>uk.co.raubach.tractivity.server.pojo.SimpleActivity[]</userType>
+                </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.ParticipantMeasureBinding</binding>
+                    <expression>.*(view_activity_participant_measures)\.(participant_measures)</expression>
+                    <types>.*json.*</types>
+                    <userType>uk.co.raubach.tractivity.server.pojo.ParticipantMeasures[]</userType>
+                </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.SimpleParticipantBinding</binding>
+                    <expression>.*(view_activities)\.(participants)</expression>
+                    <types>.*json.*</types>
+                    <userType>uk.co.raubach.tractivity.server.pojo.SimpleParticipant[]</userType>
+                </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.ParticipantActivityBinding</binding>
+                    <expression>.*(view_participants).*\.(activity_counts)</expression>
+                    <types>.*json.*</types>
+                    <userType>java.util.Map&lt;String, Integer&gt;</userType>
+                </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.MeasureRestrictionsBinding</binding>
+                    <expression>.*(measures).*\.(restrictions)</expression>
+                    <types>.*json.*</types>
+                    <userType>uk.co.raubach.tractivity.server.pojo.MeasureRestrictions</userType>
+                </forcedType>
+            </forcedTypes>
+        </database>
+
+        <name>uk.co.raubach.tractivity.server.CustomCodegen</name>
+
+        <target>
+            <directory>src/main/java/</directory>
+            <packageName>uk.co.raubach.tractivity.server.database.codegen</packageName>
+        </target>
+    </generator>
+
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <password></password>
+        <properties>
+            <property>
+                <key>user</key>
+                <value>root</value>
+            </property>
+            <property>
+                <key>password</key>
+                <value></value>
+            </property>
+        </properties>
+        <url>jdbc:mysql://localhost/tractivity?serverTimezone=UTC</url>
+
+        <!-- You can also pass user/password and other JDBC properties in the optional properties tag: -->
+        <user>root</user>
+    </jdbc>
+</configuration>
