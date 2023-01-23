@@ -4,11 +4,12 @@
 package uk.co.raubach.tractivity.server.database.codegen.tables.records;
 
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.jooq.Field;
-import org.jooq.Record8;
-import org.jooq.Row8;
+import org.jooq.Record13;
+import org.jooq.Row13;
 import org.jooq.impl.TableRecordImpl;
 
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures;
@@ -20,7 +21,7 @@ import uk.co.raubach.tractivity.server.pojo.ParticipantMeasures;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewActivityParticipantMeasuresRecord> implements Record8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, ParticipantMeasures[]> {
+public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewActivityParticipantMeasuresRecord> implements Record13<Integer, Integer, String, Timestamp, Integer, String, Timestamp, Integer, String, BigDecimal, BigDecimal, BigDecimal, ParticipantMeasures[]> {
 
     private static final long serialVersionUID = 1L;
 
@@ -138,10 +139,90 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
 
     /**
      * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_id</code>.
+     */
+    public void setLocationId(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_id</code>.
+     */
+    public Integer getLocationId() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_name</code>.
+     */
+    public void setLocationName(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_name</code>.
+     */
+    public String getLocationName() {
+        return (String) get(8);
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_latitude</code>.
+     */
+    public void setLocationLatitude(BigDecimal value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_latitude</code>.
+     */
+    public BigDecimal getLocationLatitude() {
+        return (BigDecimal) get(9);
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_longitude</code>.
+     */
+    public void setLocationLongitude(BigDecimal value) {
+        set(10, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_longitude</code>.
+     */
+    public BigDecimal getLocationLongitude() {
+        return (BigDecimal) get(10);
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_elevation</code>.
+     */
+    public void setLocationElevation(BigDecimal value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_elevation</code>.
+     */
+    public BigDecimal getLocationElevation() {
+        return (BigDecimal) get(11);
+    }
+
+    /**
+     * Setter for
      * <code>tractivity_db.view_activity_participant_measures.participant_measures</code>.
      */
     public void setParticipantMeasures(ParticipantMeasures[] value) {
-        set(7, value);
+        set(12, value);
     }
 
     /**
@@ -149,21 +230,21 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
      * <code>tractivity_db.view_activity_participant_measures.participant_measures</code>.
      */
     public ParticipantMeasures[] getParticipantMeasures() {
-        return (ParticipantMeasures[]) get(7);
+        return (ParticipantMeasures[]) get(12);
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record13 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, ParticipantMeasures[]> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row13<Integer, Integer, String, Timestamp, Integer, String, Timestamp, Integer, String, BigDecimal, BigDecimal, BigDecimal, ParticipantMeasures[]> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, ParticipantMeasures[]> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row13<Integer, Integer, String, Timestamp, Integer, String, Timestamp, Integer, String, BigDecimal, BigDecimal, BigDecimal, ParticipantMeasures[]> valuesRow() {
+        return (Row13) super.valuesRow();
     }
 
     @Override
@@ -202,7 +283,32 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
     }
 
     @Override
-    public Field<ParticipantMeasures[]> field8() {
+    public Field<Integer> field8() {
+        return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.LOCATION_ID;
+    }
+
+    @Override
+    public Field<String> field9() {
+        return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.LOCATION_NAME;
+    }
+
+    @Override
+    public Field<BigDecimal> field10() {
+        return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.LOCATION_LATITUDE;
+    }
+
+    @Override
+    public Field<BigDecimal> field11() {
+        return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.LOCATION_LONGITUDE;
+    }
+
+    @Override
+    public Field<BigDecimal> field12() {
+        return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.LOCATION_ELEVATION;
+    }
+
+    @Override
+    public Field<ParticipantMeasures[]> field13() {
         return ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES.PARTICIPANT_MEASURES;
     }
 
@@ -242,7 +348,32 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
     }
 
     @Override
-    public ParticipantMeasures[] component8() {
+    public Integer component8() {
+        return getLocationId();
+    }
+
+    @Override
+    public String component9() {
+        return getLocationName();
+    }
+
+    @Override
+    public BigDecimal component10() {
+        return getLocationLatitude();
+    }
+
+    @Override
+    public BigDecimal component11() {
+        return getLocationLongitude();
+    }
+
+    @Override
+    public BigDecimal component12() {
+        return getLocationElevation();
+    }
+
+    @Override
+    public ParticipantMeasures[] component13() {
         return getParticipantMeasures();
     }
 
@@ -282,7 +413,32 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
     }
 
     @Override
-    public ParticipantMeasures[] value8() {
+    public Integer value8() {
+        return getLocationId();
+    }
+
+    @Override
+    public String value9() {
+        return getLocationName();
+    }
+
+    @Override
+    public BigDecimal value10() {
+        return getLocationLatitude();
+    }
+
+    @Override
+    public BigDecimal value11() {
+        return getLocationLongitude();
+    }
+
+    @Override
+    public BigDecimal value12() {
+        return getLocationElevation();
+    }
+
+    @Override
+    public ParticipantMeasures[] value13() {
         return getParticipantMeasures();
     }
 
@@ -329,13 +485,43 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
     }
 
     @Override
-    public ViewActivityParticipantMeasuresRecord value8(ParticipantMeasures[] value) {
+    public ViewActivityParticipantMeasuresRecord value8(Integer value) {
+        setLocationId(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityParticipantMeasuresRecord value9(String value) {
+        setLocationName(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityParticipantMeasuresRecord value10(BigDecimal value) {
+        setLocationLatitude(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityParticipantMeasuresRecord value11(BigDecimal value) {
+        setLocationLongitude(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityParticipantMeasuresRecord value12(BigDecimal value) {
+        setLocationElevation(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityParticipantMeasuresRecord value13(ParticipantMeasures[] value) {
         setParticipantMeasures(value);
         return this;
     }
 
     @Override
-    public ViewActivityParticipantMeasuresRecord values(Integer value1, Integer value2, String value3, Timestamp value4, Integer value5, String value6, Timestamp value7, ParticipantMeasures[] value8) {
+    public ViewActivityParticipantMeasuresRecord values(Integer value1, Integer value2, String value3, Timestamp value4, Integer value5, String value6, Timestamp value7, Integer value8, String value9, BigDecimal value10, BigDecimal value11, BigDecimal value12, ParticipantMeasures[] value13) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -344,6 +530,11 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
+        value10(value10);
+        value11(value11);
+        value12(value12);
+        value13(value13);
         return this;
     }
 
@@ -361,7 +552,7 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
     /**
      * Create a detached, initialised ViewActivityParticipantMeasuresRecord
      */
-    public ViewActivityParticipantMeasuresRecord(Integer activityId, Integer activityTypeId, String activityTypeName, Timestamp activityCreatedOn, Integer eventId, String eventName, Timestamp eventCreatedOn, ParticipantMeasures[] participantMeasures) {
+    public ViewActivityParticipantMeasuresRecord(Integer activityId, Integer activityTypeId, String activityTypeName, Timestamp activityCreatedOn, Integer eventId, String eventName, Timestamp eventCreatedOn, Integer locationId, String locationName, BigDecimal locationLatitude, BigDecimal locationLongitude, BigDecimal locationElevation, ParticipantMeasures[] participantMeasures) {
         super(ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES);
 
         setActivityId(activityId);
@@ -371,6 +562,11 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
         setEventId(eventId);
         setEventName(eventName);
         setEventCreatedOn(eventCreatedOn);
+        setLocationId(locationId);
+        setLocationName(locationName);
+        setLocationLatitude(locationLatitude);
+        setLocationLongitude(locationLongitude);
+        setLocationElevation(locationElevation);
         setParticipantMeasures(participantMeasures);
     }
 
@@ -388,6 +584,11 @@ public class ViewActivityParticipantMeasuresRecord extends TableRecordImpl<ViewA
             setEventId(value.getEventId());
             setEventName(value.getEventName());
             setEventCreatedOn(value.getEventCreatedOn());
+            setLocationId(value.getLocationId());
+            setLocationName(value.getLocationName());
+            setLocationLatitude(value.getLocationLatitude());
+            setLocationLongitude(value.getLocationLongitude());
+            setLocationElevation(value.getLocationElevation());
             setParticipantMeasures(value.getParticipantMeasures());
         }
     }

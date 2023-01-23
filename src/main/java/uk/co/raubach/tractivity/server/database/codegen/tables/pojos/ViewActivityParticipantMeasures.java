@@ -5,6 +5,7 @@ package uk.co.raubach.tractivity.server.database.codegen.tables.pojos;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -27,6 +28,11 @@ public class ViewActivityParticipantMeasures implements Serializable {
     private Integer               eventId;
     private String                eventName;
     private Timestamp             eventCreatedOn;
+    private Integer               locationId;
+    private String                locationName;
+    private BigDecimal            locationLatitude;
+    private BigDecimal            locationLongitude;
+    private BigDecimal            locationElevation;
     private ParticipantMeasures[] participantMeasures;
 
     public ViewActivityParticipantMeasures() {}
@@ -39,6 +45,11 @@ public class ViewActivityParticipantMeasures implements Serializable {
         this.eventId = value.eventId;
         this.eventName = value.eventName;
         this.eventCreatedOn = value.eventCreatedOn;
+        this.locationId = value.locationId;
+        this.locationName = value.locationName;
+        this.locationLatitude = value.locationLatitude;
+        this.locationLongitude = value.locationLongitude;
+        this.locationElevation = value.locationElevation;
         this.participantMeasures = value.participantMeasures;
     }
 
@@ -50,6 +61,11 @@ public class ViewActivityParticipantMeasures implements Serializable {
         Integer               eventId,
         String                eventName,
         Timestamp             eventCreatedOn,
+        Integer               locationId,
+        String                locationName,
+        BigDecimal            locationLatitude,
+        BigDecimal            locationLongitude,
+        BigDecimal            locationElevation,
         ParticipantMeasures[] participantMeasures
     ) {
         this.activityId = activityId;
@@ -59,6 +75,11 @@ public class ViewActivityParticipantMeasures implements Serializable {
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventCreatedOn = eventCreatedOn;
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.locationLatitude = locationLatitude;
+        this.locationLongitude = locationLongitude;
+        this.locationElevation = locationElevation;
         this.participantMeasures = participantMeasures;
     }
 
@@ -176,6 +197,86 @@ public class ViewActivityParticipantMeasures implements Serializable {
 
     /**
      * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_id</code>.
+     */
+    public Integer getLocationId() {
+        return this.locationId;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_id</code>.
+     */
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_name</code>.
+     */
+    public String getLocationName() {
+        return this.locationName;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_name</code>.
+     */
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_latitude</code>.
+     */
+    public BigDecimal getLocationLatitude() {
+        return this.locationLatitude;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_latitude</code>.
+     */
+    public void setLocationLatitude(BigDecimal locationLatitude) {
+        this.locationLatitude = locationLatitude;
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_longitude</code>.
+     */
+    public BigDecimal getLocationLongitude() {
+        return this.locationLongitude;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_longitude</code>.
+     */
+    public void setLocationLongitude(BigDecimal locationLongitude) {
+        this.locationLongitude = locationLongitude;
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_participant_measures.location_elevation</code>.
+     */
+    public BigDecimal getLocationElevation() {
+        return this.locationElevation;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_participant_measures.location_elevation</code>.
+     */
+    public void setLocationElevation(BigDecimal locationElevation) {
+        this.locationElevation = locationElevation;
+    }
+
+    /**
+     * Getter for
      * <code>tractivity_db.view_activity_participant_measures.participant_measures</code>.
      */
     public ParticipantMeasures[] getParticipantMeasures() {
@@ -201,6 +302,11 @@ public class ViewActivityParticipantMeasures implements Serializable {
         sb.append(", ").append(eventId);
         sb.append(", ").append(eventName);
         sb.append(", ").append(eventCreatedOn);
+        sb.append(", ").append(locationId);
+        sb.append(", ").append(locationName);
+        sb.append(", ").append(locationLatitude);
+        sb.append(", ").append(locationLongitude);
+        sb.append(", ").append(locationElevation);
         sb.append(", ").append(Arrays.toString(participantMeasures));
 
         sb.append(")");

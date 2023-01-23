@@ -4,11 +4,12 @@
 package uk.co.raubach.tractivity.server.database.codegen.tables;
 
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row8;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -90,6 +91,36 @@ public class ViewActivityParticipantMeasures extends TableImpl<ViewActivityParti
 
     /**
      * The column
+     * <code>tractivity_db.view_activity_participant_measures.location_id</code>.
+     */
+    public final TableField<ViewActivityParticipantMeasuresRecord, Integer> LOCATION_ID = createField(DSL.name("location_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column
+     * <code>tractivity_db.view_activity_participant_measures.location_name</code>.
+     */
+    public final TableField<ViewActivityParticipantMeasuresRecord, String> LOCATION_NAME = createField(DSL.name("location_name"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column
+     * <code>tractivity_db.view_activity_participant_measures.location_latitude</code>.
+     */
+    public final TableField<ViewActivityParticipantMeasuresRecord, BigDecimal> LOCATION_LATITUDE = createField(DSL.name("location_latitude"), SQLDataType.DECIMAL(10, 8), this, "");
+
+    /**
+     * The column
+     * <code>tractivity_db.view_activity_participant_measures.location_longitude</code>.
+     */
+    public final TableField<ViewActivityParticipantMeasuresRecord, BigDecimal> LOCATION_LONGITUDE = createField(DSL.name("location_longitude"), SQLDataType.DECIMAL(11, 8), this, "");
+
+    /**
+     * The column
+     * <code>tractivity_db.view_activity_participant_measures.location_elevation</code>.
+     */
+    public final TableField<ViewActivityParticipantMeasuresRecord, BigDecimal> LOCATION_ELEVATION = createField(DSL.name("location_elevation"), SQLDataType.DECIMAL(10, 2), this, "");
+
+    /**
+     * The column
      * <code>tractivity_db.view_activity_participant_measures.participant_measures</code>.
      */
     public final TableField<ViewActivityParticipantMeasuresRecord, ParticipantMeasures[]> PARTICIPANT_MEASURES = createField(DSL.name("participant_measures"), SQLDataType.JSON, this, "", new ParticipantMeasureBinding());
@@ -99,7 +130,7 @@ public class ViewActivityParticipantMeasures extends TableImpl<ViewActivityParti
     }
 
     private ViewActivityParticipantMeasures(Name alias, Table<ViewActivityParticipantMeasuresRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_participant_measures` as select `tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`activities`.`created_on` AS `activity_created_on`,`tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`created_on` AS `event_created_on`,json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantMeasures',(select json_arrayagg(json_object('activityMeasureId',`tractivity`.`activity_measures`.`id`,'measureId',`tractivity`.`measures`.`id`,'measureName',`tractivity`.`measures`.`name`,'measureType',`tractivity`.`measures`.`type`,'measuredValue',`tractivity`.`activity_measures`.`measured_value`)) from (`tractivity`.`activity_measures` left join `tractivity`.`measures` on((`tractivity`.`measures`.`id` = `tractivity`.`activity_measures`.`measure_id`))) where ((`tractivity`.`activity_measures`.`activity_id` = `tractivity`.`activities`.`id`) and (`tractivity`.`activity_measures`.`participant_id` = `tractivity`.`participants`.`id`))))) AS `participant_measures` from ((((`tractivity`.`activities` left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) left join `tractivity`.`events` on((`tractivity`.`events`.`id` = `tractivity`.`activities`.`event_id`))) left join `tractivity`.`activity_participants` on((`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) group by `tractivity`.`activities`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_participant_measures` as select `tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`activities`.`created_on` AS `activity_created_on`,`tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`created_on` AS `event_created_on`,`tractivity`.`locations`.`id` AS `location_id`,`tractivity`.`locations`.`name` AS `location_name`,`tractivity`.`locations`.`latitude` AS `location_latitude`,`tractivity`.`locations`.`longitude` AS `location_longitude`,`tractivity`.`locations`.`elevation` AS `location_elevation`,json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantMeasures',(select json_arrayagg(json_object('activityMeasureId',`tractivity`.`activity_measures`.`id`,'measureId',`tractivity`.`measures`.`id`,'measureName',`tractivity`.`measures`.`name`,'measureType',`tractivity`.`measures`.`type`,'measuredValue',`tractivity`.`activity_measures`.`measured_value`)) from (`tractivity`.`activity_measures` left join `tractivity`.`measures` on((`tractivity`.`measures`.`id` = `tractivity`.`activity_measures`.`measure_id`))) where ((`tractivity`.`activity_measures`.`activity_id` = `tractivity`.`activities`.`id`) and (`tractivity`.`activity_measures`.`participant_id` = `tractivity`.`participants`.`id`))))) AS `participant_measures` from (((((`tractivity`.`activities` left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) left join `tractivity`.`events` on((`tractivity`.`events`.`id` = `tractivity`.`activities`.`event_id`))) left join `tractivity`.`activity_participants` on((`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) left join `tractivity`.`locations` on((`tractivity`.`activities`.`location_id` = `tractivity`.`locations`.`id`))) group by `tractivity`.`activities`.`id`"));
     }
 
     /**
@@ -160,12 +191,12 @@ public class ViewActivityParticipantMeasures extends TableImpl<ViewActivityParti
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, ParticipantMeasures[]> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row13<Integer, Integer, String, Timestamp, Integer, String, Timestamp, Integer, String, BigDecimal, BigDecimal, BigDecimal, ParticipantMeasures[]> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
     // @formatter:on
 }

@@ -7,7 +7,7 @@ import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 import uk.co.raubach.tractivity.server.AuthenticationFilter;
 import uk.co.raubach.tractivity.server.database.Database;
-import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ActivityTypes;
+import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.*;
 import uk.co.raubach.tractivity.server.database.codegen.tables.records.*;
 import uk.co.raubach.tractivity.server.util.*;
 
@@ -15,7 +15,6 @@ import java.io.*;
 import java.sql.*;
 
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.*;
 
 @Path("activitytype")
 public class ActivityTypeResource
@@ -64,6 +63,41 @@ public class ActivityTypeResource
 							   })
 							   .type("image/png")
 							   .build();
+		}
+	}
+
+	@PATCH
+	@Path("/{activityTypeId:\\d+}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response patchEvent(@PathParam("activityTypeId") Integer activityTypeId, @FormDataParam("name") String name, @FormDataParam("image") InputStream fileIs, @FormDataParam("image") FormDataContentDisposition fileDetails)
+		throws SQLException, IOException
+	{
+		if (activityTypeId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Check event exists
+			ActivityTypesRecord existingType = context.selectFrom(ACTIVITY_TYPES)
+												.where(ACTIVITY_TYPES.ID.eq(activityTypeId))
+												.fetchAny();
+
+			if (existingType == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			// Update
+			if (!StringUtils.isEmpty(name))
+				existingType.setName(name);
+			if (fileIs != null)
+				existingType.setImage(IOUtils.toByteArray(fileIs));
+			if (existingType.changed())
+				existingType.store();
+
+			return Response.ok().build();
 		}
 	}
 
