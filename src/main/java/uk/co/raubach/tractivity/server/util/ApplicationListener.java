@@ -23,6 +23,9 @@ public class ApplicationListener implements ServletContextListener
 	@Override
 	public void contextInitialized(ServletContextEvent sce)
 	{
+		System.setProperty("org.jooq.no-logo", "true");
+		System.setProperty("org.jooq.no-tips", "true");
+
 		PropertyWatcher.initialize();
 	}
 
@@ -32,33 +35,5 @@ public class ApplicationListener implements ServletContextListener
 		PropertyWatcher.stopFileWatcher();
 
 		Database.close();
-	}
-
-	/**
-	 * Returns the file with the given name from the external data folder in the given sub directory structure
-	 *
-	 * @param filename The name of the file to return
-	 * @param subdirs  Optional sub-directory structure
-	 * @return The {@link File} representing the request
-	 */
-	public static File getFromExternal(String filename, String... subdirs)
-		throws IOException
-	{
-		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
-
-		if (subdirs != null)
-		{
-			for (String subdir : subdirs)
-			{
-				folder = new File(folder, subdir);
-			}
-		}
-
-		File result = new File(folder, filename);
-
-		if (!FileUtils.isSubDirectory(folder, result))
-			throw new IOException("Invalid file access");
-
-		return result;
 	}
 }

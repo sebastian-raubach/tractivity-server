@@ -10,7 +10,9 @@ import uk.co.raubach.tractivity.server.AuthenticationFilter;
 import uk.co.raubach.tractivity.server.database.Database;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants;
 import uk.co.raubach.tractivity.server.database.codegen.tables.Participants;
-import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.*;
+import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ViewActivityMeasures;
+import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ViewActivityParticipantMeasures;
+import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ViewParticipants;
 import uk.co.raubach.tractivity.server.database.codegen.tables.records.*;
 import uk.co.raubach.tractivity.server.pojo.*;
 import uk.co.raubach.tractivity.server.util.*;
@@ -26,8 +28,8 @@ import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityPa
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Measures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityMeasures.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewParticipants.*;
 
 
@@ -113,14 +115,14 @@ public class ParticipantResource extends BaseResource implements IFilteredResour
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectConditionStep<Record> from = select.from(VIEW_ACTIVITIES)
-													 .where(DSL.condition("json_contains(" + VIEW_ACTIVITIES.PARTICIPANTS.getName() + ", json_object('participantId', " + participantId + "))"));
+			SelectConditionStep<Record> from = select.from(VIEW_ACTIVITY_PARTICIPANT_MEASURES)
+													 .where(DSL.condition("json_contains(" + VIEW_ACTIVITY_PARTICIPANT_MEASURES.PARTICIPANT_MEASURES.getName() + ", json_object('participantId', " + participantId + "))"));
 
 			filter(from, filters);
 
-			List<ViewActivities> result = setPaginationAndOrderBy(from)
+			List<ViewActivityParticipantMeasures> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(ViewActivities.class);
+				.into(ViewActivityParticipantMeasures.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

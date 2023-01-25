@@ -7,8 +7,8 @@ package uk.co.raubach.tractivity.server.database.codegen.tables.records;
 import java.sql.Timestamp;
 
 import org.jooq.Field;
-import org.jooq.Record4;
-import org.jooq.Row4;
+import org.jooq.Record5;
+import org.jooq.Row5;
 import org.jooq.impl.TableRecordImpl;
 
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewEvents;
@@ -20,7 +20,7 @@ import uk.co.raubach.tractivity.server.pojo.SimpleActivity;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implements Record4<Integer, String, Timestamp, SimpleActivity[]> {
+public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implements Record5<Integer, String, Timestamp, Timestamp, SimpleActivity[]> {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,31 +67,45 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     }
 
     /**
+     * Setter for <code>tractivity_db.view_events.latest_activity</code>.
+     */
+    public void setLatestActivity(Timestamp value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_events.latest_activity</code>.
+     */
+    public Timestamp getLatestActivity() {
+        return (Timestamp) get(3);
+    }
+
+    /**
      * Setter for <code>tractivity_db.view_events.activities</code>.
      */
     public void setActivities(SimpleActivity[] value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>tractivity_db.view_events.activities</code>.
      */
     public SimpleActivity[] getActivities() {
-        return (SimpleActivity[]) get(3);
+        return (SimpleActivity[]) get(4);
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Record5 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, Timestamp, SimpleActivity[]> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Integer, String, Timestamp, Timestamp, SimpleActivity[]> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 
     @Override
-    public Row4<Integer, String, Timestamp, SimpleActivity[]> valuesRow() {
-        return (Row4) super.valuesRow();
+    public Row5<Integer, String, Timestamp, Timestamp, SimpleActivity[]> valuesRow() {
+        return (Row5) super.valuesRow();
     }
 
     @Override
@@ -110,7 +124,12 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     }
 
     @Override
-    public Field<SimpleActivity[]> field4() {
+    public Field<Timestamp> field4() {
+        return ViewEvents.VIEW_EVENTS.LATEST_ACTIVITY;
+    }
+
+    @Override
+    public Field<SimpleActivity[]> field5() {
         return ViewEvents.VIEW_EVENTS.ACTIVITIES;
     }
 
@@ -130,7 +149,12 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     }
 
     @Override
-    public SimpleActivity[] component4() {
+    public Timestamp component4() {
+        return getLatestActivity();
+    }
+
+    @Override
+    public SimpleActivity[] component5() {
         return getActivities();
     }
 
@@ -150,7 +174,12 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     }
 
     @Override
-    public SimpleActivity[] value4() {
+    public Timestamp value4() {
+        return getLatestActivity();
+    }
+
+    @Override
+    public SimpleActivity[] value5() {
         return getActivities();
     }
 
@@ -173,17 +202,24 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     }
 
     @Override
-    public ViewEventsRecord value4(SimpleActivity[] value) {
+    public ViewEventsRecord value4(Timestamp value) {
+        setLatestActivity(value);
+        return this;
+    }
+
+    @Override
+    public ViewEventsRecord value5(SimpleActivity[] value) {
         setActivities(value);
         return this;
     }
 
     @Override
-    public ViewEventsRecord values(Integer value1, String value2, Timestamp value3, SimpleActivity[] value4) {
+    public ViewEventsRecord values(Integer value1, String value2, Timestamp value3, Timestamp value4, SimpleActivity[] value5) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
+        value5(value5);
         return this;
     }
 
@@ -201,12 +237,13 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
     /**
      * Create a detached, initialised ViewEventsRecord
      */
-    public ViewEventsRecord(Integer eventId, String eventName, Timestamp eventCreatedOn, SimpleActivity[] activities) {
+    public ViewEventsRecord(Integer eventId, String eventName, Timestamp eventCreatedOn, Timestamp latestActivity, SimpleActivity[] activities) {
         super(ViewEvents.VIEW_EVENTS);
 
         setEventId(eventId);
         setEventName(eventName);
         setEventCreatedOn(eventCreatedOn);
+        setLatestActivity(latestActivity);
         setActivities(activities);
     }
 
@@ -220,6 +257,7 @@ public class ViewEventsRecord extends TableRecordImpl<ViewEventsRecord> implemen
             setEventId(value.getEventId());
             setEventName(value.getEventName());
             setEventCreatedOn(value.getEventCreatedOn());
+            setLatestActivity(value.getLatestActivity());
             setActivities(value.getActivities());
         }
     }

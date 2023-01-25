@@ -23,6 +23,7 @@ public class ViewEvents implements Serializable {
     private Integer          eventId;
     private String           eventName;
     private Timestamp        eventCreatedOn;
+    private Timestamp        latestActivity;
     private SimpleActivity[] activities;
 
     public ViewEvents() {}
@@ -31,6 +32,7 @@ public class ViewEvents implements Serializable {
         this.eventId = value.eventId;
         this.eventName = value.eventName;
         this.eventCreatedOn = value.eventCreatedOn;
+        this.latestActivity = value.latestActivity;
         this.activities = value.activities;
     }
 
@@ -38,11 +40,13 @@ public class ViewEvents implements Serializable {
         Integer          eventId,
         String           eventName,
         Timestamp        eventCreatedOn,
+        Timestamp        latestActivity,
         SimpleActivity[] activities
     ) {
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventCreatedOn = eventCreatedOn;
+        this.latestActivity = latestActivity;
         this.activities = activities;
     }
 
@@ -89,6 +93,20 @@ public class ViewEvents implements Serializable {
     }
 
     /**
+     * Getter for <code>tractivity_db.view_events.latest_activity</code>.
+     */
+    public Timestamp getLatestActivity() {
+        return this.latestActivity;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.view_events.latest_activity</code>.
+     */
+    public void setLatestActivity(Timestamp latestActivity) {
+        this.latestActivity = latestActivity;
+    }
+
+    /**
      * Getter for <code>tractivity_db.view_events.activities</code>.
      */
     public SimpleActivity[] getActivities() {
@@ -109,6 +127,7 @@ public class ViewEvents implements Serializable {
         sb.append(eventId);
         sb.append(", ").append(eventName);
         sb.append(", ").append(eventCreatedOn);
+        sb.append(", ").append(latestActivity);
         sb.append(", ").append(Arrays.toString(activities));
 
         sb.append(")");
