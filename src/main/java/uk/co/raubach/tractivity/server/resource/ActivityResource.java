@@ -11,16 +11,13 @@ import uk.co.raubach.tractivity.server.pojo.*;
 import uk.co.raubach.tractivity.server.util.*;
 
 import java.sql.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Activities.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityMeasures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Events.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Locations.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Measures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures.*;
@@ -105,10 +102,10 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
-	public Response postActivity(ViewActivityParticipantMeasures newData)
+	public Response postActivity(ActivityPost newData)
 		throws SQLException
 	{
-		if (newData.getActivityTypeId() == null || newData.getEventId() == null || newData.getActivityCreatedOn() == null || CollectionUtils.isEmptyOrNull(newData.getParticipantMeasures()))
+		if (newData.getActivityTypeId() == null || newData.getEventId() == null || newData.getCreatedOn() == null || CollectionUtils.isEmptyOrNull(newData.getParticipantIds()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 
 		try (Connection conn = Database.getConnection())
@@ -119,17 +116,9 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 			LocationsRecord location = context.selectFrom(LOCATIONS).where(LOCATIONS.ID.eq(newData.getLocationId())).fetchAny();
 			ActivityTypesRecord activityType = context.selectFrom(ACTIVITY_TYPES).where(ACTIVITY_TYPES.ID.eq(newData.getActivityTypeId())).fetchAny();
 
-			List<Integer> participantIds = Arrays.stream(newData.getParticipantMeasures()).map(pm -> pm.getParticipantId()).collect(Collectors.toList());
-			List<Participants> participants = context.selectFrom(PARTICIPANTS).where(PARTICIPANTS.ID.in(participantIds)).fetchInto(Participants.class);
+			List<Participants> participants = context.selectFrom(PARTICIPANTS).where(PARTICIPANTS.ID.in(newData.getParticipantIds())).fetchInto(Participants.class);
 
-			Set<Integer> measureIds = new HashSet<>();
-			Arrays.stream(newData.getParticipantMeasures()).forEach(pm -> {
-				Arrays.stream(pm.getParticipantMeasures())
-					  .forEach(pmpm -> measureIds.add(pmpm.getMeasureId()));
-			});
-			List<Measures> measures = context.selectFrom(MEASURES).where(MEASURES.ID.in(measureIds)).fetchInto(Measures.class);
-
-			if (event == null || location == null || activityType == null || participants.size() != participantIds.size() || measureIds.size() != measures.size())
+			if (event == null || location == null || activityType == null || participants.size() != newData.getParticipantIds().size())
 				return Response.status(Response.Status.NOT_FOUND).build();
 
 			// Create the new activity
@@ -150,22 +139,6 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 				ap.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				ap.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 				ap.store();
-			}
-
-			// For each participant
-			for (ParticipantMeasures pm : newData.getParticipantMeasures())
-			{
-				// Go through all measures
-				for (SimpleMeasures sm : pm.getParticipantMeasures())
-				{
-					// And add them to the activity, participant and measure
-					ActivityMeasuresRecord am = context.newRecord(ACTIVITY_MEASURES);
-					am.setParticipantId(pm.getParticipantId());
-					am.setActivityId(newActivity.getId());
-					am.setMeasureId(sm.getMeasureId());
-					am.setMeasuredValue(sm.getMeasuredValue());
-					am.store();
-				}
 			}
 		}
 

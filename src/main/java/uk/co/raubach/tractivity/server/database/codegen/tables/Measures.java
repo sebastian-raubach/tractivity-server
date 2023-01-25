@@ -62,7 +62,7 @@ public class Measures extends TableImpl<MeasuresRecord> {
     /**
      * The column <code>tractivity_db.measures.type</code>.
      */
-    public final TableField<MeasuresRecord, MeasuresType> TYPE = createField(DSL.name("type"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.inline("text", SQLDataType.VARCHAR)).asEnumDataType(uk.co.raubach.tractivity.server.database.codegen.enums.MeasuresType.class), this, "");
+    public final TableField<MeasuresRecord, MeasuresType> TYPE = createField(DSL.name("type"), SQLDataType.VARCHAR(11).nullable(false).defaultValue(DSL.inline("text", SQLDataType.VARCHAR)).asEnumDataType(uk.co.raubach.tractivity.server.database.codegen.enums.MeasuresType.class), this, "");
 
     /**
      * The column <code>tractivity_db.measures.image</code>.

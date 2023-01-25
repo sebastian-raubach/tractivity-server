@@ -10,21 +10,24 @@ import uk.co.raubach.tractivity.server.AuthenticationFilter;
 import uk.co.raubach.tractivity.server.database.Database;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants;
 import uk.co.raubach.tractivity.server.database.codegen.tables.Participants;
-import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ViewActivities;
-import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.ViewParticipants;
-import uk.co.raubach.tractivity.server.database.codegen.tables.records.ParticipantsRecord;
+import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.*;
+import uk.co.raubach.tractivity.server.database.codegen.tables.records.*;
 import uk.co.raubach.tractivity.server.pojo.*;
 import uk.co.raubach.tractivity.server.util.*;
 
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Activities.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityMeasures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.Measures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityMeasures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewParticipants.*;
 
 
@@ -190,10 +193,10 @@ public class ParticipantResource extends BaseResource implements IFilteredResour
 									  ).from(PARTICIPANTS).leftJoin(ACTIVITY_PARTICIPANTS).on(ACTIVITY_PARTICIPANTS.PARTICIPANT_ID.eq(PARTICIPANTS.ID))
 									  .leftJoin(ACTIVITIES).on(ACTIVITIES.ID.eq(ACTIVITY_PARTICIPANTS.ACTIVITY_ID))
 									  .leftJoin(ACTIVITY_TYPES).on(ACTIVITY_TYPES.ID.eq(ACTIVITIES.ACTIVITY_TYPE_ID))
-				.where(PARTICIPANTS.ID.eq(participantId))
-				.groupBy(id)
-				.orderBy(count.desc())
-				.fetchInto(ActivityCount.class)).build();
+									  .where(PARTICIPANTS.ID.eq(participantId))
+									  .groupBy(id)
+									  .orderBy(count.desc())
+									  .fetchInto(ActivityCount.class)).build();
 		}
 	}
 
@@ -325,6 +328,68 @@ public class ParticipantResource extends BaseResource implements IFilteredResour
 
 			record.setImage(IOUtils.toByteArray(fileIs));
 			return Response.ok(record.store(PARTICIPANTS.IMAGE) > 0).build();
+		}
+	}
+
+	@GET
+	@Path("/{participantId:\\d+}/{activityId:\\d+}/measure")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response postParticipantMeasure(@PathParam("participantId") Integer participantId, @PathParam("activityId") Integer activityId)
+		throws SQLException
+	{
+		if (participantId == null || activityId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return Response.ok(context.selectFrom(VIEW_ACTIVITY_MEASURES)
+									  .where(VIEW_ACTIVITY_MEASURES.ACTIVITY_ID.eq(activityId))
+									  .and(VIEW_ACTIVITY_MEASURES.PARTICIPANT_ID.eq(participantId))
+									  .fetchInto(ViewActivityMeasures.class))
+						   .build();
+		}
+	}
+
+	@POST
+	@Path("/{participantId:\\d+}/{activityId:\\d+}/measure")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response postParticipantMeasure(@PathParam("participantId") Integer participantId, @PathParam("activityId") Integer activityId, SimpleMeasures[] toAdd)
+		throws SQLException
+	{
+		if (participantId == null || activityId == null || toAdd == null || CollectionUtils.isEmptyOrNull(toAdd))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Set<Integer> measureIds = Arrays.stream(toAdd).map(m -> m.getMeasureId()).collect(Collectors.toSet());
+			ParticipantsRecord participant = context.selectFrom(PARTICIPANTS).where(PARTICIPANTS.ID.eq(participantId)).fetchAny();
+			List<MeasuresRecord> measures = context.selectFrom(MEASURES).where(MEASURES.ID.in(measureIds)).fetch();
+			ActivitiesRecord activity = context.selectFrom(ACTIVITIES).where(ACTIVITIES.ID.eq(activityId)).fetchAny();
+
+			if (participant == null || measures.size() != measureIds.size() || activity == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			for (SimpleMeasures m : toAdd)
+			{
+				ActivityMeasuresRecord am = context.newRecord(ACTIVITY_MEASURES);
+				am.setActivityId(activity.getId());
+				am.setParticipantId(participant.getId());
+				am.setMeasureId(m.getMeasureId());
+				am.setMeasuredValue(m.getMeasuredValue());
+				am.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+				am.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+				am.store();
+			}
+
+			return Response.ok().build();
 		}
 	}
 }

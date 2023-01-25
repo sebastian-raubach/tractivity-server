@@ -66,6 +66,12 @@
                     <types>.*json.*</types>
                     <userType>uk.co.raubach.tractivity.server.pojo.MeasureRestrictions</userType>
                 </forcedType>
+                <forcedType>
+                    <binding>uk.co.raubach.tractivity.server.database.binding.MeasureRestrictionsBinding</binding>
+                    <expression>.*(view_activity_measures).*\.(measure_restrictions)</expression>
+                    <types>.*json.*</types>
+                    <userType>uk.co.raubach.tractivity.server.pojo.MeasureRestrictions</userType>
+                </forcedType>
             </forcedTypes>
         </database>
 

@@ -135,7 +135,7 @@ public class Database
 		if (initAndUpdate)
 		{
 			boolean databaseExists = true;
-			// Check if the germinatebase table exists
+			// Check if the activities table exists
 			try (Connection conn = getConnection();
 				 PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(1) AS count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?"))
 			{

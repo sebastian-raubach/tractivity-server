@@ -10,18 +10,69 @@ import uk.co.raubach.tractivity.server.database.Database;
 import uk.co.raubach.tractivity.server.database.codegen.enums.MeasuresType;
 import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.Measures;
 import uk.co.raubach.tractivity.server.database.codegen.tables.records.*;
-import uk.co.raubach.tractivity.server.pojo.MeasureRestrictions;
+import uk.co.raubach.tractivity.server.pojo.*;
 import uk.co.raubach.tractivity.server.util.*;
 
 import java.io.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityMeasures.*;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Measures.*;
 
 @Path("measure")
 public class MeasureResource
 {
+	@PATCH
+	@Path("/value/{activityMeasureId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response postParticipantMeasure(@PathParam("activityMeasureId") Integer activityMeasureId, SimpleMeasures toPatch)
+		throws SQLException
+	{
+		if (activityMeasureId == null || toPatch == null || !activityMeasureId.equals(toPatch.getActivityMeasureId()) || StringUtils.isEmpty(toPatch.getMeasuredValue()))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			ActivityMeasuresRecord record = context.selectFrom(ACTIVITY_MEASURES).where(ACTIVITY_MEASURES.ID.eq(activityMeasureId)).fetchAny();
+
+			if (record == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			record.setMeasuredValue(toPatch.getMeasuredValue());
+			return Response.ok(record.store(ACTIVITY_MEASURES.MEASURED_VALUE) > 0).build();
+		}
+	}
+
+	@DELETE
+	@Path("/value/{activityMeasureId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response deleteParticipantMeasure(@PathParam("activityMeasureId") Integer activityMeasureId)
+		throws SQLException
+	{
+		if (activityMeasureId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			ActivityMeasuresRecord record = context.selectFrom(ACTIVITY_MEASURES).where(ACTIVITY_MEASURES.ID.eq(activityMeasureId)).fetchAny();
+
+			if (record == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			return Response.ok(record.delete() > 0).build();
+		}
+	}
+
 	@PATCH
 	@Path("/{measureId:\\d+}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -64,19 +115,26 @@ public class MeasureResource
 			if (restrictions == null)
 				restrictions = new MeasureRestrictions();
 
-			try {
+			try
+			{
 				restrictions.setMinDate(sdf.format(sdf.parse(minDate)));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				// Do nothing here
 			}
-			try {
+			try
+			{
 				restrictions.setMaxDate(sdf.format(sdf.parse(maxDate)));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				// Do nothing here
 			}
 			restrictions.setMinValue(minValue);
 			restrictions.setMaxValue(maxValue);
-			if (!StringUtils.isEmpty(categories)) {
+			if (!StringUtils.isEmpty(categories))
+			{
 				String[] cats = categories.split(",");
 				restrictions.setCategories(cats);
 			}
@@ -123,19 +181,26 @@ public class MeasureResource
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 			MeasureRestrictions restrictions = new MeasureRestrictions();
-			try {
+			try
+			{
 				restrictions.setMinDate(sdf.format(sdf.parse(minDate)));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				// Do nothing here
 			}
-			try {
+			try
+			{
 				restrictions.setMaxDate(sdf.format(sdf.parse(maxDate)));
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				// Do nothing here
 			}
 			restrictions.setMinValue(minValue);
 			restrictions.setMaxValue(maxValue);
-			if (!StringUtils.isEmpty(categories)) {
+			if (!StringUtils.isEmpty(categories))
+			{
 				String[] cats = categories.split(",");
 				restrictions.setCategories(cats);
 			}
@@ -163,9 +228,35 @@ public class MeasureResource
 		{
 			DSLContext context = Database.getContext(conn);
 
+			List<Measures> result = context.selectFrom(MEASURES)
+											 .orderBy(MEASURES.NAME)
+											 .fetchInto(Measures.class);
+
+			result.forEach(r -> r.setImage(null));
+
+			return Response.ok(result)
+						   .build();
+		}
+	}
+
+	@GET
+	@Path("/{measureId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response getMeasureById(@PathParam("measureId") Integer measureId)
+		throws SQLException
+	{
+		if (measureId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
 			return Response.ok(context.selectFrom(MEASURES)
-									  .orderBy(MEASURES.NAME)
-									  .fetchInto(Measures.class))
+									  .where(MEASURES.ID.eq(measureId))
+									  .fetchAnyInto(Measures.class))
 						   .build();
 		}
 	}

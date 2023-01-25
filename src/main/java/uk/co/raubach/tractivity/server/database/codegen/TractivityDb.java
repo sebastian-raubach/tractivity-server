@@ -21,6 +21,7 @@ import uk.co.raubach.tractivity.server.database.codegen.tables.Measures;
 import uk.co.raubach.tractivity.server.database.codegen.tables.Participants;
 import uk.co.raubach.tractivity.server.database.codegen.tables.SchemaVersion;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities;
+import uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityMeasures;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewEvents;
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewParticipants;
@@ -66,6 +67,7 @@ public class TractivityDb extends SchemaImpl {
             Participants.PARTICIPANTS,
             SchemaVersion.SCHEMA_VERSION,
             ViewActivities.VIEW_ACTIVITIES,
+            ViewActivityMeasures.VIEW_ACTIVITY_MEASURES,
             ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES,
             ViewEvents.VIEW_EVENTS,
             ViewParticipants.VIEW_PARTICIPANTS
