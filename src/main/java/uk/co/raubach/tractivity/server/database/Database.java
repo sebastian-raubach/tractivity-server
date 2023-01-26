@@ -172,6 +172,7 @@ public class Database
 				}
 				catch (IOException | URISyntaxException e)
 				{
+					Logger.getLogger("").severe(e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 			}
@@ -207,6 +208,7 @@ public class Database
 			}
 			catch (FlywayException e)
 			{
+				Logger.getLogger("").severe(e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 
@@ -227,6 +229,7 @@ public class Database
 			}
 			catch (IOException | URISyntaxException e)
 			{
+				Logger.getLogger("").severe(e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 		}
