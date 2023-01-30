@@ -126,7 +126,10 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 			newActivity.setActivityTypeId(activityType.getId());
 			newActivity.setEventId(event.getId());
 			newActivity.setLocationId(location.getId());
-			newActivity.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			if (newData.getCreatedOn() != null)
+				newActivity.setCreatedOn(newData.getCreatedOn());
+			else
+				newActivity.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			newActivity.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			newActivity.store();
 
@@ -136,7 +139,10 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 				ActivityParticipantsRecord ap = context.newRecord(ACTIVITY_PARTICIPANTS);
 				ap.setActivityId(newActivity.getId());
 				ap.setParticipantId(p.getId());
-				ap.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+				if (newData.getCreatedOn() != null)
+					ap.setCreatedOn(newData.getCreatedOn());
+				else
+					ap.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				ap.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 				ap.store();
 			}
