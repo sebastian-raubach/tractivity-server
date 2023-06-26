@@ -7,8 +7,8 @@ package uk.co.raubach.tractivity.server.database.codegen.tables.records;
 import java.sql.Timestamp;
 
 import org.jooq.Field;
-import org.jooq.Record8;
-import org.jooq.Row8;
+import org.jooq.Record10;
+import org.jooq.Row10;
 import org.jooq.impl.TableRecordImpl;
 
 import uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities;
@@ -20,7 +20,7 @@ import uk.co.raubach.tractivity.server.pojo.SimpleParticipant;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> implements Record8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, SimpleParticipant[]> {
+public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> implements Record10<Integer, Integer, String, Timestamp, Integer, String, Integer, String, Timestamp, SimpleParticipant[]> {
 
     private static final long serialVersionUID = 1L;
 
@@ -83,73 +83,101 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
     }
 
     /**
+     * Setter for <code>tractivity_db.view_activities.location_id</code>.
+     */
+    public void setLocationId(Integer value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_activities.location_id</code>.
+     */
+    public Integer getLocationId() {
+        return (Integer) get(4);
+    }
+
+    /**
+     * Setter for <code>tractivity_db.view_activities.location_name</code>.
+     */
+    public void setLocationName(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_activities.location_name</code>.
+     */
+    public String getLocationName() {
+        return (String) get(5);
+    }
+
+    /**
      * Setter for <code>tractivity_db.view_activities.event_id</code>.
      */
     public void setEventId(Integer value) {
-        set(4, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>tractivity_db.view_activities.event_id</code>.
      */
     public Integer getEventId() {
-        return (Integer) get(4);
+        return (Integer) get(6);
     }
 
     /**
      * Setter for <code>tractivity_db.view_activities.event_name</code>.
      */
     public void setEventName(String value) {
-        set(5, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>tractivity_db.view_activities.event_name</code>.
      */
     public String getEventName() {
-        return (String) get(5);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>tractivity_db.view_activities.event_created_on</code>.
      */
     public void setEventCreatedOn(Timestamp value) {
-        set(6, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>tractivity_db.view_activities.event_created_on</code>.
      */
     public Timestamp getEventCreatedOn() {
-        return (Timestamp) get(6);
+        return (Timestamp) get(8);
     }
 
     /**
      * Setter for <code>tractivity_db.view_activities.participants</code>.
      */
     public void setParticipants(SimpleParticipant[] value) {
-        set(7, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>tractivity_db.view_activities.participants</code>.
      */
     public SimpleParticipant[] getParticipants() {
-        return (SimpleParticipant[]) get(7);
+        return (SimpleParticipant[]) get(9);
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, SimpleParticipant[]> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<Integer, Integer, String, Timestamp, Integer, String, Integer, String, Timestamp, SimpleParticipant[]> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, SimpleParticipant[]> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row10<Integer, Integer, String, Timestamp, Integer, String, Integer, String, Timestamp, SimpleParticipant[]> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
@@ -174,21 +202,31 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
 
     @Override
     public Field<Integer> field5() {
-        return ViewActivities.VIEW_ACTIVITIES.EVENT_ID;
+        return ViewActivities.VIEW_ACTIVITIES.LOCATION_ID;
     }
 
     @Override
     public Field<String> field6() {
+        return ViewActivities.VIEW_ACTIVITIES.LOCATION_NAME;
+    }
+
+    @Override
+    public Field<Integer> field7() {
+        return ViewActivities.VIEW_ACTIVITIES.EVENT_ID;
+    }
+
+    @Override
+    public Field<String> field8() {
         return ViewActivities.VIEW_ACTIVITIES.EVENT_NAME;
     }
 
     @Override
-    public Field<Timestamp> field7() {
+    public Field<Timestamp> field9() {
         return ViewActivities.VIEW_ACTIVITIES.EVENT_CREATED_ON;
     }
 
     @Override
-    public Field<SimpleParticipant[]> field8() {
+    public Field<SimpleParticipant[]> field10() {
         return ViewActivities.VIEW_ACTIVITIES.PARTICIPANTS;
     }
 
@@ -214,21 +252,31 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
 
     @Override
     public Integer component5() {
-        return getEventId();
+        return getLocationId();
     }
 
     @Override
     public String component6() {
+        return getLocationName();
+    }
+
+    @Override
+    public Integer component7() {
+        return getEventId();
+    }
+
+    @Override
+    public String component8() {
         return getEventName();
     }
 
     @Override
-    public Timestamp component7() {
+    public Timestamp component9() {
         return getEventCreatedOn();
     }
 
     @Override
-    public SimpleParticipant[] component8() {
+    public SimpleParticipant[] component10() {
         return getParticipants();
     }
 
@@ -254,21 +302,31 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
 
     @Override
     public Integer value5() {
-        return getEventId();
+        return getLocationId();
     }
 
     @Override
     public String value6() {
+        return getLocationName();
+    }
+
+    @Override
+    public Integer value7() {
+        return getEventId();
+    }
+
+    @Override
+    public String value8() {
         return getEventName();
     }
 
     @Override
-    public Timestamp value7() {
+    public Timestamp value9() {
         return getEventCreatedOn();
     }
 
     @Override
-    public SimpleParticipant[] value8() {
+    public SimpleParticipant[] value10() {
         return getParticipants();
     }
 
@@ -298,30 +356,42 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
 
     @Override
     public ViewActivitiesRecord value5(Integer value) {
-        setEventId(value);
+        setLocationId(value);
         return this;
     }
 
     @Override
     public ViewActivitiesRecord value6(String value) {
+        setLocationName(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivitiesRecord value7(Integer value) {
+        setEventId(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivitiesRecord value8(String value) {
         setEventName(value);
         return this;
     }
 
     @Override
-    public ViewActivitiesRecord value7(Timestamp value) {
+    public ViewActivitiesRecord value9(Timestamp value) {
         setEventCreatedOn(value);
         return this;
     }
 
     @Override
-    public ViewActivitiesRecord value8(SimpleParticipant[] value) {
+    public ViewActivitiesRecord value10(SimpleParticipant[] value) {
         setParticipants(value);
         return this;
     }
 
     @Override
-    public ViewActivitiesRecord values(Integer value1, Integer value2, String value3, Timestamp value4, Integer value5, String value6, Timestamp value7, SimpleParticipant[] value8) {
+    public ViewActivitiesRecord values(Integer value1, Integer value2, String value3, Timestamp value4, Integer value5, String value6, Integer value7, String value8, Timestamp value9, SimpleParticipant[] value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -330,6 +400,8 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -347,13 +419,15 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
     /**
      * Create a detached, initialised ViewActivitiesRecord
      */
-    public ViewActivitiesRecord(Integer activityId, Integer activityTypeId, String activityTypeName, Timestamp activityCreatedOn, Integer eventId, String eventName, Timestamp eventCreatedOn, SimpleParticipant[] participants) {
+    public ViewActivitiesRecord(Integer activityId, Integer activityTypeId, String activityTypeName, Timestamp activityCreatedOn, Integer locationId, String locationName, Integer eventId, String eventName, Timestamp eventCreatedOn, SimpleParticipant[] participants) {
         super(ViewActivities.VIEW_ACTIVITIES);
 
         setActivityId(activityId);
         setActivityTypeId(activityTypeId);
         setActivityTypeName(activityTypeName);
         setActivityCreatedOn(activityCreatedOn);
+        setLocationId(locationId);
+        setLocationName(locationName);
         setEventId(eventId);
         setEventName(eventName);
         setEventCreatedOn(eventCreatedOn);
@@ -371,6 +445,8 @@ public class ViewActivitiesRecord extends TableRecordImpl<ViewActivitiesRecord> 
             setActivityTypeId(value.getActivityTypeId());
             setActivityTypeName(value.getActivityTypeName());
             setActivityCreatedOn(value.getActivityCreatedOn());
+            setLocationId(value.getLocationId());
+            setLocationName(value.getLocationName());
             setEventId(value.getEventId());
             setEventName(value.getEventName());
             setEventCreatedOn(value.getEventCreatedOn());

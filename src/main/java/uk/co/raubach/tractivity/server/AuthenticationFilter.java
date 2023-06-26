@@ -50,7 +50,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		ids.add(licenseId);
 
 		Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, ","));
-		cookie.setVersion(0);
 		cookie.setPath(getContextPath(req));
 		cookie.setMaxAge((int) (AGE / 1000));
 		cookie.setHttpOnly(true);
@@ -226,7 +225,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		if (delete)
 		{
 			Cookie cookie = new Cookie("token", "");
-			cookie.setVersion(0);
 			cookie.setPath(getContextPath(request));
 			cookie.setMaxAge(0);
 			cookie.setHttpOnly(true);
@@ -234,7 +232,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 			// This is for the docker image that uses a proxy-reverse
 			cookie = new Cookie("token", "");
-			cookie.setVersion(0);
 			cookie.setPath("/");
 			cookie.setMaxAge(0);
 			cookie.setHttpOnly(true);
@@ -243,7 +240,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		else
 		{
 			Cookie cookie = new Cookie("token", token);
-			cookie.setVersion(0);
 			cookie.setPath(getContextPath(request));
 			cookie.setMaxAge((int) (AGE / 1000));
 			cookie.setHttpOnly(true);
@@ -259,7 +255,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		if (!CollectionUtils.isEmpty(ids))
 		{
 			Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, ","));
-			cookie.setVersion(0);
 			cookie.setPath(getContextPath(request));
 			cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
 			cookie.setHttpOnly(true);

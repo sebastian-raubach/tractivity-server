@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row8;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -67,6 +67,16 @@ public class ViewActivities extends TableImpl<ViewActivitiesRecord> {
     public final TableField<ViewActivitiesRecord, Timestamp> ACTIVITY_CREATED_ON = createField(DSL.name("activity_created_on"), SQLDataType.TIMESTAMP(0), this, "");
 
     /**
+     * The column <code>tractivity_db.view_activities.location_id</code>.
+     */
+    public final TableField<ViewActivitiesRecord, Integer> LOCATION_ID = createField(DSL.name("location_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>tractivity_db.view_activities.location_name</code>.
+     */
+    public final TableField<ViewActivitiesRecord, String> LOCATION_NAME = createField(DSL.name("location_name"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
      * The column <code>tractivity_db.view_activities.event_id</code>.
      */
     public final TableField<ViewActivitiesRecord, Integer> EVENT_ID = createField(DSL.name("event_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
@@ -91,7 +101,7 @@ public class ViewActivities extends TableImpl<ViewActivitiesRecord> {
     }
 
     private ViewActivities(Name alias, Table<ViewActivitiesRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activities` as select `tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`activities`.`created_on` AS `activity_created_on`,`tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`created_on` AS `event_created_on`,json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantDob',`tractivity`.`participants`.`dob`,'participantGender',`tractivity`.`participants`.`gender`)) AS `participants` from ((((`tractivity`.`activities` left join `tractivity`.`activity_types` on((`tractivity`.`activity_types`.`id` = `tractivity`.`activities`.`activity_type_id`))) left join `tractivity`.`events` on((`tractivity`.`events`.`id` = `tractivity`.`activities`.`event_id`))) left join `tractivity`.`activity_participants` on((`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) group by `tractivity`.`activities`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activities` as select `tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`activities`.`created_on` AS `activity_created_on`,`tractivity`.`locations`.`id` AS `location_id`,`tractivity`.`locations`.`name` AS `location_name`,`tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`created_on` AS `event_created_on`,json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantDob',`tractivity`.`participants`.`dob`,'participantGender',`tractivity`.`participants`.`gender`)) AS `participants` from (((((`tractivity`.`activities` left join `tractivity`.`activity_types` on((`tractivity`.`activity_types`.`id` = `tractivity`.`activities`.`activity_type_id`))) left join `tractivity`.`events` on((`tractivity`.`events`.`id` = `tractivity`.`activities`.`event_id`))) left join `tractivity`.`activity_participants` on((`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) left join `tractivity`.`locations` on((`tractivity`.`locations`.`id` = `tractivity`.`activities`.`location_id`))) group by `tractivity`.`activities`.`id`"));
     }
 
     /**
@@ -149,12 +159,12 @@ public class ViewActivities extends TableImpl<ViewActivitiesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, Integer, String, Timestamp, Integer, String, Timestamp, SimpleParticipant[]> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<Integer, Integer, String, Timestamp, Integer, String, Integer, String, Timestamp, SimpleParticipant[]> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
     // @formatter:on
 }

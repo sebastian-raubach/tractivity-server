@@ -24,6 +24,8 @@ public class ViewActivities implements Serializable {
     private Integer             activityTypeId;
     private String              activityTypeName;
     private Timestamp           activityCreatedOn;
+    private Integer             locationId;
+    private String              locationName;
     private Integer             eventId;
     private String              eventName;
     private Timestamp           eventCreatedOn;
@@ -36,6 +38,8 @@ public class ViewActivities implements Serializable {
         this.activityTypeId = value.activityTypeId;
         this.activityTypeName = value.activityTypeName;
         this.activityCreatedOn = value.activityCreatedOn;
+        this.locationId = value.locationId;
+        this.locationName = value.locationName;
         this.eventId = value.eventId;
         this.eventName = value.eventName;
         this.eventCreatedOn = value.eventCreatedOn;
@@ -47,6 +51,8 @@ public class ViewActivities implements Serializable {
         Integer             activityTypeId,
         String              activityTypeName,
         Timestamp           activityCreatedOn,
+        Integer             locationId,
+        String              locationName,
         Integer             eventId,
         String              eventName,
         Timestamp           eventCreatedOn,
@@ -56,6 +62,8 @@ public class ViewActivities implements Serializable {
         this.activityTypeId = activityTypeId;
         this.activityTypeName = activityTypeName;
         this.activityCreatedOn = activityCreatedOn;
+        this.locationId = locationId;
+        this.locationName = locationName;
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventCreatedOn = eventCreatedOn;
@@ -118,6 +126,34 @@ public class ViewActivities implements Serializable {
      */
     public void setActivityCreatedOn(Timestamp activityCreatedOn) {
         this.activityCreatedOn = activityCreatedOn;
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_activities.location_id</code>.
+     */
+    public Integer getLocationId() {
+        return this.locationId;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.view_activities.location_id</code>.
+     */
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_activities.location_name</code>.
+     */
+    public String getLocationName() {
+        return this.locationName;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.view_activities.location_name</code>.
+     */
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     /**
@@ -184,6 +220,8 @@ public class ViewActivities implements Serializable {
         sb.append(", ").append(activityTypeId);
         sb.append(", ").append(activityTypeName);
         sb.append(", ").append(activityCreatedOn);
+        sb.append(", ").append(locationId);
+        sb.append(", ").append(locationName);
         sb.append(", ").append(eventId);
         sb.append(", ").append(eventName);
         sb.append(", ").append(eventCreatedOn);
