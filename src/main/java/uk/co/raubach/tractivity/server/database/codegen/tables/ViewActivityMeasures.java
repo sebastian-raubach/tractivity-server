@@ -6,7 +6,7 @@ package uk.co.raubach.tractivity.server.database.codegen.tables;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row12;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -112,6 +112,12 @@ public class ViewActivityMeasures extends TableImpl<ViewActivityMeasuresRecord> 
 
     /**
      * The column
+     * <code>tractivity_db.view_activity_measures.measure_default_value</code>.
+     */
+    public final TableField<ViewActivityMeasuresRecord, String> MEASURE_DEFAULT_VALUE = createField(DSL.name("measure_default_value"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column
      * <code>tractivity_db.view_activity_measures.measured_value</code>.
      */
     public final TableField<ViewActivityMeasuresRecord, String> MEASURED_VALUE = createField(DSL.name("measured_value"), SQLDataType.VARCHAR(255).nullable(false), this, "");
@@ -121,7 +127,7 @@ public class ViewActivityMeasures extends TableImpl<ViewActivityMeasuresRecord> 
     }
 
     private ViewActivityMeasures(Name alias, Table<ViewActivityMeasuresRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_measures` as select `tractivity`.`activity_measures`.`id` AS `activity_measure_id`,`tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`participants`.`id` AS `participant_id`,`tractivity`.`participants`.`name` AS `participant_name`,`tractivity`.`participants`.`gender` AS `participant_gender`,`tractivity`.`measures`.`id` AS `measure_id`,`tractivity`.`measures`.`name` AS `measure_name`,`tractivity`.`measures`.`type` AS `measure_type`,`tractivity`.`measures`.`restrictions` AS `measure_restrictions`,`tractivity`.`activity_measures`.`measured_value` AS `measured_value` from ((((`tractivity`.`activity_measures` left join `tractivity`.`activities` on((`tractivity`.`activities`.`id` = `tractivity`.`activity_measures`.`activity_id`))) left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_measures`.`participant_id`))) left join `tractivity`.`measures` on((`tractivity`.`measures`.`id` = `tractivity`.`activity_measures`.`measure_id`)))"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_measures` as select `tractivity`.`activity_measures`.`id` AS `activity_measure_id`,`tractivity`.`activities`.`id` AS `activity_id`,`tractivity`.`activity_types`.`id` AS `activity_type_id`,`tractivity`.`activity_types`.`name` AS `activity_type_name`,`tractivity`.`participants`.`id` AS `participant_id`,`tractivity`.`participants`.`name` AS `participant_name`,`tractivity`.`participants`.`gender` AS `participant_gender`,`tractivity`.`measures`.`id` AS `measure_id`,`tractivity`.`measures`.`name` AS `measure_name`,`tractivity`.`measures`.`type` AS `measure_type`,`tractivity`.`measures`.`restrictions` AS `measure_restrictions`,`tractivity`.`measures`.`default_value` AS `measure_default_value`,`tractivity`.`activity_measures`.`measured_value` AS `measured_value` from ((((`tractivity`.`activity_measures` left join `tractivity`.`activities` on((`tractivity`.`activities`.`id` = `tractivity`.`activity_measures`.`activity_id`))) left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) left join `tractivity`.`participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_measures`.`participant_id`))) left join `tractivity`.`measures` on((`tractivity`.`measures`.`id` = `tractivity`.`activity_measures`.`measure_id`)))"));
     }
 
     /**
@@ -180,12 +186,12 @@ public class ViewActivityMeasures extends TableImpl<ViewActivityMeasuresRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Row12 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row12<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String> fieldsRow() {
-        return (Row12) super.fieldsRow();
+    public Row13<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String, String> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
     // @formatter:on
 }

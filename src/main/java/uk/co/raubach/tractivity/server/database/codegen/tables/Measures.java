@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -73,6 +73,11 @@ public class Measures extends TableImpl<MeasuresRecord> {
      * The column <code>tractivity_db.measures.restrictions</code>.
      */
     public final TableField<MeasuresRecord, MeasureRestrictions> RESTRICTIONS = createField(DSL.name("restrictions"), SQLDataType.JSON, this, "", new MeasureRestrictionsBinding());
+
+    /**
+     * The column <code>tractivity_db.measures.default_value</code>.
+     */
+    public final TableField<MeasuresRecord, String> DEFAULT_VALUE = createField(DSL.name("default_value"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>tractivity_db.measures.created_on</code>.
@@ -155,12 +160,12 @@ public class Measures extends TableImpl<MeasuresRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, String, MeasuresType, byte[], MeasureRestrictions, Timestamp, Timestamp> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<Integer, String, MeasuresType, byte[], MeasureRestrictions, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
     // @formatter:on
 }

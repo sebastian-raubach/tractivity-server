@@ -31,6 +31,7 @@ public class ViewActivityMeasures implements Serializable {
     private String                                measureName;
     private ViewActivityMeasuresMeasureType       measureType;
     private MeasureRestrictions                   measureRestrictions;
+    private String                                measureDefaultValue;
     private String                                measuredValue;
 
     public ViewActivityMeasures() {}
@@ -47,6 +48,7 @@ public class ViewActivityMeasures implements Serializable {
         this.measureName = value.measureName;
         this.measureType = value.measureType;
         this.measureRestrictions = value.measureRestrictions;
+        this.measureDefaultValue = value.measureDefaultValue;
         this.measuredValue = value.measuredValue;
     }
 
@@ -62,6 +64,7 @@ public class ViewActivityMeasures implements Serializable {
         String                                measureName,
         ViewActivityMeasuresMeasureType       measureType,
         MeasureRestrictions                   measureRestrictions,
+        String                                measureDefaultValue,
         String                                measuredValue
     ) {
         this.activityMeasureId = activityMeasureId;
@@ -75,6 +78,7 @@ public class ViewActivityMeasures implements Serializable {
         this.measureName = measureName;
         this.measureType = measureType;
         this.measureRestrictions = measureRestrictions;
+        this.measureDefaultValue = measureDefaultValue;
         this.measuredValue = measuredValue;
     }
 
@@ -252,6 +256,22 @@ public class ViewActivityMeasures implements Serializable {
 
     /**
      * Getter for
+     * <code>tractivity_db.view_activity_measures.measure_default_value</code>.
+     */
+    public String getMeasureDefaultValue() {
+        return this.measureDefaultValue;
+    }
+
+    /**
+     * Setter for
+     * <code>tractivity_db.view_activity_measures.measure_default_value</code>.
+     */
+    public void setMeasureDefaultValue(String measureDefaultValue) {
+        this.measureDefaultValue = measureDefaultValue;
+    }
+
+    /**
+     * Getter for
      * <code>tractivity_db.view_activity_measures.measured_value</code>.
      */
     public String getMeasuredValue() {
@@ -281,6 +301,7 @@ public class ViewActivityMeasures implements Serializable {
         sb.append(", ").append(measureName);
         sb.append(", ").append(measureType);
         sb.append(", ").append(measureRestrictions);
+        sb.append(", ").append(measureDefaultValue);
         sb.append(", ").append(measuredValue);
 
         sb.append(")");

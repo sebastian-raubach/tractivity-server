@@ -82,6 +82,7 @@ public class MeasureResource
 		@PathParam("measureId") Integer measureId,
 		@FormDataParam("name") String name,
 		@FormDataParam("measureType") MeasuresType measureType,
+		@FormDataParam("defaultValue") String defaultValue,
 		@FormDataParam("minValue") Double minValue,
 		@FormDataParam("maxValue") Double maxValue,
 		@FormDataParam("minDate") String minDate,
@@ -107,7 +108,6 @@ public class MeasureResource
 
 			if (existingMeasure == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
-
 
 			MeasureRestrictions restrictions = existingMeasure.getRestrictions();
 			boolean hasRestrictions = restrictions != null;
@@ -148,6 +148,8 @@ public class MeasureResource
 				existingMeasure.setType(measureType);
 			if (fileIs != null)
 				existingMeasure.setImage(IOUtils.toByteArray(fileIs));
+			if (!StringUtils.isEmpty(defaultValue))
+				existingMeasure.setDefaultValue(defaultValue);
 			return Response.ok(existingMeasure.store() > 0).build();
 		}
 	}
@@ -159,6 +161,7 @@ public class MeasureResource
 	public Response postMeasure(
 		@FormDataParam("name") String name,
 		@FormDataParam("measureType") MeasuresType measureType,
+		@FormDataParam("defaultValue") String defaultValue,
 		@FormDataParam("minValue") Double minValue,
 		@FormDataParam("maxValue") Double maxValue,
 		@FormDataParam("minDate") String minDate,
@@ -209,6 +212,8 @@ public class MeasureResource
 			record.setName(name);
 			record.setType(measureType);
 			record.setRestrictions(restrictions);
+			if (!StringUtils.isEmpty(defaultValue))
+				record.setDefaultValue(defaultValue);
 			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			if (fileIs != null)

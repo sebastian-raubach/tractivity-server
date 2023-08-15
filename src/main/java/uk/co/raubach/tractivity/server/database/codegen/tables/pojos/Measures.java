@@ -25,6 +25,7 @@ public class Measures implements Serializable {
     private MeasuresType        type;
     private byte[]              image;
     private MeasureRestrictions restrictions;
+    private String              defaultValue;
     private Timestamp           createdOn;
     private Timestamp           updatedOn;
 
@@ -36,6 +37,7 @@ public class Measures implements Serializable {
         this.type = value.type;
         this.image = value.image;
         this.restrictions = value.restrictions;
+        this.defaultValue = value.defaultValue;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -46,6 +48,7 @@ public class Measures implements Serializable {
         MeasuresType        type,
         byte[]              image,
         MeasureRestrictions restrictions,
+        String              defaultValue,
         Timestamp           createdOn,
         Timestamp           updatedOn
     ) {
@@ -54,6 +57,7 @@ public class Measures implements Serializable {
         this.type = type;
         this.image = image;
         this.restrictions = restrictions;
+        this.defaultValue = defaultValue;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -129,6 +133,20 @@ public class Measures implements Serializable {
     }
 
     /**
+     * Getter for <code>tractivity_db.measures.default_value</code>.
+     */
+    public String getDefaultValue() {
+        return this.defaultValue;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.measures.default_value</code>.
+     */
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    /**
      * Getter for <code>tractivity_db.measures.created_on</code>.
      */
     public Timestamp getCreatedOn() {
@@ -165,6 +183,7 @@ public class Measures implements Serializable {
         sb.append(", ").append(type);
         sb.append(", ").append("[binary...]");
         sb.append(", ").append(restrictions);
+        sb.append(", ").append(defaultValue);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

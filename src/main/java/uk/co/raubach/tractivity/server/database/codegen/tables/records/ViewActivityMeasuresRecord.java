@@ -5,8 +5,8 @@ package uk.co.raubach.tractivity.server.database.codegen.tables.records;
 
 
 import org.jooq.Field;
-import org.jooq.Record12;
-import org.jooq.Row12;
+import org.jooq.Record13;
+import org.jooq.Row13;
 import org.jooq.impl.TableRecordImpl;
 
 import uk.co.raubach.tractivity.server.database.codegen.enums.ViewActivityMeasuresMeasureType;
@@ -20,7 +20,7 @@ import uk.co.raubach.tractivity.server.pojo.MeasureRestrictions;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeasuresRecord> implements Record12<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String> {
+public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeasuresRecord> implements Record13<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String, String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -198,10 +198,26 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
 
     /**
      * Setter for
+     * <code>tractivity_db.view_activity_measures.measure_default_value</code>.
+     */
+    public void setMeasureDefaultValue(String value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for
+     * <code>tractivity_db.view_activity_measures.measure_default_value</code>.
+     */
+    public String getMeasureDefaultValue() {
+        return (String) get(11);
+    }
+
+    /**
+     * Setter for
      * <code>tractivity_db.view_activity_measures.measured_value</code>.
      */
     public void setMeasuredValue(String value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
@@ -209,21 +225,21 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
      * <code>tractivity_db.view_activity_measures.measured_value</code>.
      */
     public String getMeasuredValue() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     // -------------------------------------------------------------------------
-    // Record12 type implementation
+    // Record13 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row12<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String> fieldsRow() {
-        return (Row12) super.fieldsRow();
+    public Row13<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String, String> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 
     @Override
-    public Row12<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String> valuesRow() {
-        return (Row12) super.valuesRow();
+    public Row13<Integer, Integer, Integer, String, Integer, String, ViewActivityMeasuresParticipantGender, Integer, String, ViewActivityMeasuresMeasureType, MeasureRestrictions, String, String> valuesRow() {
+        return (Row13) super.valuesRow();
     }
 
     @Override
@@ -283,6 +299,11 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
 
     @Override
     public Field<String> field12() {
+        return ViewActivityMeasures.VIEW_ACTIVITY_MEASURES.MEASURE_DEFAULT_VALUE;
+    }
+
+    @Override
+    public Field<String> field13() {
         return ViewActivityMeasures.VIEW_ACTIVITY_MEASURES.MEASURED_VALUE;
     }
 
@@ -343,6 +364,11 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
 
     @Override
     public String component12() {
+        return getMeasureDefaultValue();
+    }
+
+    @Override
+    public String component13() {
         return getMeasuredValue();
     }
 
@@ -403,6 +429,11 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
 
     @Override
     public String value12() {
+        return getMeasureDefaultValue();
+    }
+
+    @Override
+    public String value13() {
         return getMeasuredValue();
     }
 
@@ -474,12 +505,18 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
 
     @Override
     public ViewActivityMeasuresRecord value12(String value) {
+        setMeasureDefaultValue(value);
+        return this;
+    }
+
+    @Override
+    public ViewActivityMeasuresRecord value13(String value) {
         setMeasuredValue(value);
         return this;
     }
 
     @Override
-    public ViewActivityMeasuresRecord values(Integer value1, Integer value2, Integer value3, String value4, Integer value5, String value6, ViewActivityMeasuresParticipantGender value7, Integer value8, String value9, ViewActivityMeasuresMeasureType value10, MeasureRestrictions value11, String value12) {
+    public ViewActivityMeasuresRecord values(Integer value1, Integer value2, Integer value3, String value4, Integer value5, String value6, ViewActivityMeasuresParticipantGender value7, Integer value8, String value9, ViewActivityMeasuresMeasureType value10, MeasureRestrictions value11, String value12, String value13) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -492,6 +529,7 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
         value10(value10);
         value11(value11);
         value12(value12);
+        value13(value13);
         return this;
     }
 
@@ -509,7 +547,7 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
     /**
      * Create a detached, initialised ViewActivityMeasuresRecord
      */
-    public ViewActivityMeasuresRecord(Integer activityMeasureId, Integer activityId, Integer activityTypeId, String activityTypeName, Integer participantId, String participantName, ViewActivityMeasuresParticipantGender participantGender, Integer measureId, String measureName, ViewActivityMeasuresMeasureType measureType, MeasureRestrictions measureRestrictions, String measuredValue) {
+    public ViewActivityMeasuresRecord(Integer activityMeasureId, Integer activityId, Integer activityTypeId, String activityTypeName, Integer participantId, String participantName, ViewActivityMeasuresParticipantGender participantGender, Integer measureId, String measureName, ViewActivityMeasuresMeasureType measureType, MeasureRestrictions measureRestrictions, String measureDefaultValue, String measuredValue) {
         super(ViewActivityMeasures.VIEW_ACTIVITY_MEASURES);
 
         setActivityMeasureId(activityMeasureId);
@@ -523,6 +561,7 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
         setMeasureName(measureName);
         setMeasureType(measureType);
         setMeasureRestrictions(measureRestrictions);
+        setMeasureDefaultValue(measureDefaultValue);
         setMeasuredValue(measuredValue);
     }
 
@@ -544,6 +583,7 @@ public class ViewActivityMeasuresRecord extends TableRecordImpl<ViewActivityMeas
             setMeasureName(value.getMeasureName());
             setMeasureType(value.getMeasureType());
             setMeasureRestrictions(value.getMeasureRestrictions());
+            setMeasureDefaultValue(value.getMeasureDefaultValue());
             setMeasuredValue(value.getMeasuredValue());
         }
     }
