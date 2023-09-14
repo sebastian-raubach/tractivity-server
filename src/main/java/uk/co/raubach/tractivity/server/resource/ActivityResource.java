@@ -13,14 +13,14 @@ import uk.co.raubach.tractivity.server.util.*;
 import java.sql.*;
 import java.util.List;
 
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Activities.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Events.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Locations.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities.*;
-import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.Activities.ACTIVITIES;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants.ACTIVITY_PARTICIPANTS;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.ACTIVITY_TYPES;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.Events.EVENTS;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.Locations.LOCATIONS;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.Participants.PARTICIPANTS;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivities.VIEW_ACTIVITIES;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityParticipantMeasures.VIEW_ACTIVITY_PARTICIPANT_MEASURES;
 
 @Path("activity")
 public class ActivityResource extends BaseResource implements IFilteredResource
@@ -31,7 +31,7 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	public Response getActivityById(@PathParam("activityId") Integer activityId)
-		throws SQLException
+			throws SQLException
 	{
 		if (activityId == null)
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -47,13 +47,35 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 		}
 	}
 
+	@DELETE
+	@Path("/{activityId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response deleteActivityById(@PathParam("activityId") Integer activityId)
+			throws SQLException
+	{
+		if (activityId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return Response.ok(context.deleteFrom(ACTIVITIES)
+									  .where(ACTIVITIES.ID.eq(activityId))
+									  .execute() > 0
+			).build();
+		}
+	}
+
 	@POST
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	public PaginatedResult<List<ViewActivities>> getActivities(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -69,8 +91,8 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 			filter(from, filters);
 
 			List<ViewActivities> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewActivities.class);
+					.fetch()
+					.into(ViewActivities.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -84,7 +106,7 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	public Response getActivityYears()
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -103,7 +125,7 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	public Response postActivity(ActivityPost newData)
-		throws SQLException
+			throws SQLException
 	{
 		if (newData.getActivityTypeId() == null || newData.getEventId() == null || newData.getCreatedOn() == null || CollectionUtils.isEmptyOrNull(newData.getParticipantIds()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
