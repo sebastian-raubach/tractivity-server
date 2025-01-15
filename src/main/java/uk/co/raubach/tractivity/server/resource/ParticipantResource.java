@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.*;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import uk.co.raubach.tractivity.server.AuthenticationFilter;
 import uk.co.raubach.tractivity.server.database.Database;

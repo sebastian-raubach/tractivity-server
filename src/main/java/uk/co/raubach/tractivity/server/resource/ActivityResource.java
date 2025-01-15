@@ -3,6 +3,7 @@ package uk.co.raubach.tractivity.server.resource;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import uk.co.raubach.tractivity.server.database.Database;
 import uk.co.raubach.tractivity.server.database.codegen.tables.pojos.*;

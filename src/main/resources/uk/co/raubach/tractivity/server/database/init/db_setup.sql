@@ -1,3 +1,6 @@
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
 --
 -- Table structure for table `events`
 --
@@ -131,3 +134,5 @@ CREATE TABLE `participants` (
                                 `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+SET FOREIGN_KEY_CHECKS = 0;

@@ -49,12 +49,12 @@ public class ViewParticipants extends TableImpl<ViewParticipantsRecord> {
     /**
      * The column <code>tractivity_db.view_participants.participant_id</code>.
      */
-    public final TableField<ViewParticipantsRecord, Integer> PARTICIPANT_ID = createField(DSL.name("participant_id"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+    public final TableField<ViewParticipantsRecord, Integer> PARTICIPANT_ID = createField(DSL.name("participant_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>tractivity_db.view_participants.participant_name</code>.
      */
-    public final TableField<ViewParticipantsRecord, String> PARTICIPANT_NAME = createField(DSL.name("participant_name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ViewParticipantsRecord, String> PARTICIPANT_NAME = createField(DSL.name("participant_name"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>tractivity_db.view_participants.participant_dob</code>.
@@ -70,7 +70,7 @@ public class ViewParticipants extends TableImpl<ViewParticipantsRecord> {
     /**
      * The column <code>tractivity_db.view_participants.created_on</code>.
      */
-    public final TableField<ViewParticipantsRecord, Timestamp> CREATED_ON = createField(DSL.name("created_on"), SQLDataType.TIMESTAMP(0).nullable(false).defaultValue(DSL.inline("0000-00-00 00:00:00", SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<ViewParticipantsRecord, Timestamp> CREATED_ON = createField(DSL.name("created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>tractivity_db.view_participants.activity_counts</code>.

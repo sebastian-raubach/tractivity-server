@@ -12,7 +12,7 @@ public enum ServerProperty
 	DATABASE_NAME("database.name", null, true),
 	DATABASE_USERNAME("database.username", null, true),
 	DATABASE_PASSWORD("database.password", null, false),
-	DATABASE_PORT("database.port", null, false),;
+	DATABASE_PORT("database.port", null, false);
 
 	String  key;
 	String  defaultValue;

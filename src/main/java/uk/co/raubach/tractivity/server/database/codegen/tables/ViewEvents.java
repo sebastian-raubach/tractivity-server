@@ -58,7 +58,7 @@ public class ViewEvents extends TableImpl<ViewEventsRecord> {
     /**
      * The column <code>tractivity_db.view_events.event_created_on</code>.
      */
-    public final TableField<ViewEventsRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0), this, "");
+    public final TableField<ViewEventsRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>tractivity_db.view_events.latest_activity</code>.

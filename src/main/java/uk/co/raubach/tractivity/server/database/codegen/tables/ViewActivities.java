@@ -64,7 +64,7 @@ public class ViewActivities extends TableImpl<ViewActivitiesRecord> {
      * The column
      * <code>tractivity_db.view_activities.activity_created_on</code>.
      */
-    public final TableField<ViewActivitiesRecord, Timestamp> ACTIVITY_CREATED_ON = createField(DSL.name("activity_created_on"), SQLDataType.TIMESTAMP(0), this, "");
+    public final TableField<ViewActivitiesRecord, Timestamp> ACTIVITY_CREATED_ON = createField(DSL.name("activity_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>tractivity_db.view_activities.location_id</code>.
@@ -89,7 +89,7 @@ public class ViewActivities extends TableImpl<ViewActivitiesRecord> {
     /**
      * The column <code>tractivity_db.view_activities.event_created_on</code>.
      */
-    public final TableField<ViewActivitiesRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0), this, "");
+    public final TableField<ViewActivitiesRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>tractivity_db.view_activities.participants</code>.

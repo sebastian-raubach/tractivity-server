@@ -15,6 +15,7 @@ import java.io.*;
 import java.sql.*;
 
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.*;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ViewActivityTypes.VIEW_ACTIVITY_TYPES;
 
 @Path("activitytype")
 public class ActivityTypeResource
@@ -30,9 +31,9 @@ public class ActivityTypeResource
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return Response.ok(context.selectFrom(ACTIVITY_TYPES)
-									  .orderBy(ACTIVITY_TYPES.NAME)
-									  .fetchInto(ActivityTypes.class))
+			return Response.ok(context.selectFrom(VIEW_ACTIVITY_TYPES)
+									  .orderBy(VIEW_ACTIVITY_TYPES.NAME)
+									  .fetchInto(ViewActivityTypes.class))
 						   .build();
 		}
 	}

@@ -69,7 +69,7 @@ public class ViewActivityParticipantMeasures extends TableImpl<ViewActivityParti
      * The column
      * <code>tractivity_db.view_activity_participant_measures.activity_created_on</code>.
      */
-    public final TableField<ViewActivityParticipantMeasuresRecord, Timestamp> ACTIVITY_CREATED_ON = createField(DSL.name("activity_created_on"), SQLDataType.TIMESTAMP(0), this, "");
+    public final TableField<ViewActivityParticipantMeasuresRecord, Timestamp> ACTIVITY_CREATED_ON = createField(DSL.name("activity_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column
@@ -87,7 +87,7 @@ public class ViewActivityParticipantMeasures extends TableImpl<ViewActivityParti
      * The column
      * <code>tractivity_db.view_activity_participant_measures.event_created_on</code>.
      */
-    public final TableField<ViewActivityParticipantMeasuresRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0), this, "");
+    public final TableField<ViewActivityParticipantMeasuresRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column
