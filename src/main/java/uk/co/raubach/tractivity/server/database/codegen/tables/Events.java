@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -55,6 +55,11 @@ public class Events extends TableImpl<EventsRecord> {
      * The column <code>tractivity_db.events.name</code>.
      */
     public final TableField<EventsRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>tractivity_db.events.description</code>.
+     */
+    public final TableField<EventsRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>tractivity_db.events.created_on</code>.
@@ -137,12 +142,12 @@ public class Events extends TableImpl<EventsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, Timestamp, Timestamp> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Integer, String, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
     // @formatter:on
 }

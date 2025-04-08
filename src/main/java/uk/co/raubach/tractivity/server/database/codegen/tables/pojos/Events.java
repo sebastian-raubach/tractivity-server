@@ -19,6 +19,7 @@ public class Events implements Serializable {
 
     private Integer   id;
     private String    name;
+    private String    description;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -27,6 +28,7 @@ public class Events implements Serializable {
     public Events(Events value) {
         this.id = value.id;
         this.name = value.name;
+        this.description = value.description;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -34,11 +36,13 @@ public class Events implements Serializable {
     public Events(
         Integer   id,
         String    name,
+        String    description,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -69,6 +73,20 @@ public class Events implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Getter for <code>tractivity_db.events.description</code>.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.events.description</code>.
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -105,6 +123,7 @@ public class Events implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(name);
+        sb.append(", ").append(description);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

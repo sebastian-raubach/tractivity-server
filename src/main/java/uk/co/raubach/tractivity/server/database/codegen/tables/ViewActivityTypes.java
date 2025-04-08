@@ -78,7 +78,7 @@ public class ViewActivityTypes extends TableImpl<ViewActivityTypesRecord> {
     }
 
     private ViewActivityTypes(Name alias, Table<ViewActivityTypesRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_types` as select `tractivity`.`activity_types`.`id` AS `id`,`tractivity`.`activity_types`.`name` AS `name`,`tractivity`.`activity_types`.`image` AS `image`,`tractivity`.`activity_types`.`created_on` AS `created_on`,`tractivity`.`activity_types`.`updated_on` AS `updated_on`,count(1) AS `count` from (`tractivity`.`activity_types` join `tractivity`.`activities` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) group by `tractivity`.`activity_types`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_activity_types` as select `tractivity`.`activity_types`.`id` AS `id`,`tractivity`.`activity_types`.`name` AS `name`,`tractivity`.`activity_types`.`image` AS `image`,`tractivity`.`activity_types`.`created_on` AS `created_on`,`tractivity`.`activity_types`.`updated_on` AS `updated_on`,count(1) AS `count` from (`tractivity`.`activity_types` left join `tractivity`.`activities` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) group by `tractivity`.`activity_types`.`id`"));
     }
 
     /**

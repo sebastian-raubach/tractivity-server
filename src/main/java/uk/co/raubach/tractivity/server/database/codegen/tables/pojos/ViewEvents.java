@@ -22,6 +22,7 @@ public class ViewEvents implements Serializable {
 
     private Integer          eventId;
     private String           eventName;
+    private String           eventDescription;
     private Timestamp        eventCreatedOn;
     private Timestamp        latestActivity;
     private SimpleActivity[] activities;
@@ -31,6 +32,7 @@ public class ViewEvents implements Serializable {
     public ViewEvents(ViewEvents value) {
         this.eventId = value.eventId;
         this.eventName = value.eventName;
+        this.eventDescription = value.eventDescription;
         this.eventCreatedOn = value.eventCreatedOn;
         this.latestActivity = value.latestActivity;
         this.activities = value.activities;
@@ -39,12 +41,14 @@ public class ViewEvents implements Serializable {
     public ViewEvents(
         Integer          eventId,
         String           eventName,
+        String           eventDescription,
         Timestamp        eventCreatedOn,
         Timestamp        latestActivity,
         SimpleActivity[] activities
     ) {
         this.eventId = eventId;
         this.eventName = eventName;
+        this.eventDescription = eventDescription;
         this.eventCreatedOn = eventCreatedOn;
         this.latestActivity = latestActivity;
         this.activities = activities;
@@ -76,6 +80,20 @@ public class ViewEvents implements Serializable {
      */
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    /**
+     * Getter for <code>tractivity_db.view_events.event_description</code>.
+     */
+    public String getEventDescription() {
+        return this.eventDescription;
+    }
+
+    /**
+     * Setter for <code>tractivity_db.view_events.event_description</code>.
+     */
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     /**
@@ -126,6 +144,7 @@ public class ViewEvents implements Serializable {
 
         sb.append(eventId);
         sb.append(", ").append(eventName);
+        sb.append(", ").append(eventDescription);
         sb.append(", ").append(eventCreatedOn);
         sb.append(", ").append(latestActivity);
         sb.append(", ").append(Arrays.toString(activities));

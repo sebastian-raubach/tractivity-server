@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -56,6 +56,11 @@ public class ViewEvents extends TableImpl<ViewEventsRecord> {
     public final TableField<ViewEventsRecord, String> EVENT_NAME = createField(DSL.name("event_name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
+     * The column <code>tractivity_db.view_events.event_description</code>.
+     */
+    public final TableField<ViewEventsRecord, String> EVENT_DESCRIPTION = createField(DSL.name("event_description"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>tractivity_db.view_events.event_created_on</code>.
      */
     public final TableField<ViewEventsRecord, Timestamp> EVENT_CREATED_ON = createField(DSL.name("event_created_on"), SQLDataType.TIMESTAMP(0).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.TIMESTAMP)), this, "");
@@ -75,7 +80,7 @@ public class ViewEvents extends TableImpl<ViewEventsRecord> {
     }
 
     private ViewEvents(Name alias, Table<ViewEventsRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_events` as select `tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`created_on` AS `event_created_on`,max(`tractivity`.`activities`.`created_on`) AS `latest_activity`,if((count(`tractivity`.`activities`.`id`) = 0),json_array(),json_arrayagg(json_object('activityId',`tractivity`.`activities`.`id`,'activityTypeId',`tractivity`.`activity_types`.`id`,'activityTypeName',`tractivity`.`activity_types`.`name`,'activityParticipants',(select json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantDob',`tractivity`.`participants`.`dob`,'participantGender',`tractivity`.`participants`.`gender`)) from (`tractivity`.`participants` left join `tractivity`.`activity_participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) where (`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))))) AS `activities` from ((`tractivity`.`events` left join `tractivity`.`activities` on((`tractivity`.`activities`.`event_id` = `tractivity`.`events`.`id`))) left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) group by `tractivity`.`events`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_events` as select `tractivity`.`events`.`id` AS `event_id`,`tractivity`.`events`.`name` AS `event_name`,`tractivity`.`events`.`description` AS `event_description`,`tractivity`.`events`.`created_on` AS `event_created_on`,max(`tractivity`.`activities`.`created_on`) AS `latest_activity`,if((count(`tractivity`.`activities`.`id`) = 0),json_array(),json_arrayagg(json_object('activityId',`tractivity`.`activities`.`id`,'activityTypeId',`tractivity`.`activity_types`.`id`,'activityTypeName',`tractivity`.`activity_types`.`name`,'activityParticipants',(select json_arrayagg(json_object('participantId',`tractivity`.`participants`.`id`,'participantName',`tractivity`.`participants`.`name`,'participantDob',`tractivity`.`participants`.`dob`,'participantGender',`tractivity`.`participants`.`gender`)) from (`tractivity`.`participants` left join `tractivity`.`activity_participants` on((`tractivity`.`participants`.`id` = `tractivity`.`activity_participants`.`participant_id`))) where (`tractivity`.`activity_participants`.`activity_id` = `tractivity`.`activities`.`id`))))) AS `activities` from ((`tractivity`.`events` left join `tractivity`.`activities` on((`tractivity`.`activities`.`event_id` = `tractivity`.`events`.`id`))) left join `tractivity`.`activity_types` on((`tractivity`.`activities`.`activity_type_id` = `tractivity`.`activity_types`.`id`))) group by `tractivity`.`events`.`id`"));
     }
 
     /**
@@ -131,12 +136,12 @@ public class ViewEvents extends TableImpl<ViewEventsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, Timestamp, Timestamp, SimpleActivity[]> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Integer, String, String, Timestamp, Timestamp, SimpleActivity[]> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
     // @formatter:on
 }

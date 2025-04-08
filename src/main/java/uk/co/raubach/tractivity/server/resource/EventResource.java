@@ -134,6 +134,8 @@ public class EventResource extends BaseResource implements IFilteredResource
 			// Update
 			if (!StringUtils.isEmpty(update.getName()))
 				existingEvent.setName(update.getName());
+			if (!StringUtils.isEmpty(update.getDescription()))
+				existingEvent.setDescription(update.getDescription());
 			if (update.getCreatedOn() != null)
 				existingEvent.setCreatedOn(update.getCreatedOn());
 			else
