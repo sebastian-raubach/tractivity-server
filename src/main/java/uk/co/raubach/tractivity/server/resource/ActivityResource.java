@@ -12,9 +12,11 @@ import uk.co.raubach.tractivity.server.pojo.*;
 import uk.co.raubach.tractivity.server.util.*;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Activities.ACTIVITIES;
+import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityMeasures.ACTIVITY_MEASURES;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityParticipants.ACTIVITY_PARTICIPANTS;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.ActivityTypes.ACTIVITY_TYPES;
 import static uk.co.raubach.tractivity.server.database.codegen.tables.Events.EVENTS;
@@ -45,6 +47,72 @@ public class ActivityResource extends BaseResource implements IFilteredResource
 									  .where(VIEW_ACTIVITY_PARTICIPANT_MEASURES.ACTIVITY_ID.eq(activityId))
 									  .fetchAnyInto(ViewActivityParticipantMeasures.class)
 			).build();
+		}
+	}
+
+	@GET
+	@Path("/{activityId:\\d+}/duplicate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	public Response duplicateActivityById(@PathParam("activityId") Integer activityId, @QueryParam("date") String date)
+			throws SQLException
+	{
+		if (activityId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Activities ams = context.selectFrom(ACTIVITIES)
+									.where(ACTIVITIES.ID.eq(activityId))
+									.fetchAnyInto(Activities.class);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Timestamp ts;
+
+			try
+			{
+				ts = new Timestamp(sdf.parse(date).getTime());
+			}
+			catch (Exception e)
+			{
+				ts = new Timestamp(System.currentTimeMillis());
+			}
+
+			final Timestamp tts = ts;
+
+			if (ams != null)
+			{
+				ActivitiesRecord act = context.newRecord(ACTIVITIES);
+				act.setEventId(ams.getEventId());
+				act.setActivityTypeId(ams.getActivityTypeId());
+				act.setLocationId(ams.getLocationId());
+				act.setCreatedOn(ts);
+				act.store();
+
+				context.selectFrom(ACTIVITY_MEASURES).where(ACTIVITY_MEASURES.ACTIVITY_ID.eq(activityId))
+						.forEach(a -> {
+							ActivityMeasuresRecord amr = context.newRecord(ACTIVITY_MEASURES);
+							amr.setActivityId(act.getId());
+							amr.setMeasuredValue(a.getMeasuredValue());
+							amr.setMeasureId(a.getMeasureId());
+							amr.setCreatedOn(tts);
+							amr.setParticipantId(a.getParticipantId());
+							amr.store();
+						});
+
+				context.selectFrom(ACTIVITY_PARTICIPANTS).where(ACTIVITY_PARTICIPANTS.ACTIVITY_ID.eq(activityId))
+						.forEach(ap -> {
+							ActivityParticipantsRecord apr = context.newRecord(ACTIVITY_PARTICIPANTS);
+							apr.setActivityId(act.getId());
+							apr.setParticipantId(ap.getParticipantId());
+							apr.store();
+						});
+			}
+
+			return Response.ok().build();
 		}
 	}
 
